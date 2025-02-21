@@ -18,5 +18,8 @@ urlpatterns = [
     path("books/edit/<int:book_id>/", edit_book, name="edit_book"),
     path("books/delete/<int:book_id>/", delete_book, name="delete_book"),
 
+    path("register/", register, name="register"),
+    path("login/", LoginView.as_view(template_name="relationship_app/login.html"), name="login"),
+    path("logout/", LogoutView.as_view(template_name="relationship_app/logout.html"), name="logout"),
 
 ]

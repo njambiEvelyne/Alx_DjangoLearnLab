@@ -9,6 +9,16 @@ from django.contrib.auth.forms import UserCreationForm
 
 
 from .forms import BookForm  # Ensure you have a form for adding/editing books
+def register(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)  # Log the user in automatically after registration
+            return redirect("list_books")  # Redirect to book list after registration
+    else:
+        form = UserCreationForm()
+    return render(request, "relationship_app/register.html", {"form": form})
 
 
 # Function-Based View to list all books
