@@ -64,7 +64,7 @@ def edit_book(request, book_id):
             return redirect("list_books")
     else:
         form = BookForm(instance=book)
-    return render(request, "relationship_app/book_form.html", {"form": form})
+    return render(request, "relationship_app/book_form.html", {"form": form, "book": book})
 
 # ✅ View to delete a book (Restricted to users with 'can_delete_book' permission)
 @permission_required("relationship_app.can_delete_book")
