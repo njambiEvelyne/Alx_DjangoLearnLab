@@ -20,9 +20,10 @@ def get_books_in_library(library_name):
 # Retrieve the librarian for a library
 def get_librarian_for_library(library_name):
     library = Library.objects.get(name=library_name)  # Get the library instance
-    return library.librarian  # OneToOne relationship allows direct access
+    return Librarian.objects.get(library=library)  # Use get() to fetch the librarian
 
 if __name__ == "__main__":
     print("Books by Author:", list(get_books_by_author("J.K. Rowling")))
     print("Books in Library:", list(get_books_in_library("City Library")))
     print("Librarian for Library:", get_librarian_for_library("City Library"))
+
