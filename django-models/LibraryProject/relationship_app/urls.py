@@ -3,6 +3,7 @@ from .views import (
     list_books, LibraryDetailView, 
     admin_view, librarian_view, member_view
 )
+from .views import list_books
 from .views import add_book, edit_book, delete_book
 
 
