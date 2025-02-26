@@ -16,3 +16,17 @@ class BookForm(forms.ModelForm):
     class Meta:
         model = Book
         fields = ['title', 'author', 'published_date']
+
+class CustomUserCreationForm(forms.ModelForm):
+    """Form for user registration."""
+    password = forms.CharField(widget=forms.PasswordInput)
+
+    class Meta:
+        model = CustomUser
+        fields = ['username', 'email', 'date_of_birth', 'profile_photo', 'password']
+
+class ExampleForm(forms.Form):
+    """Example form for demonstration purposes."""
+    name = forms.CharField(max_length=100, required=True)
+    email = forms.EmailField(required=True)
+    message = forms.CharField(widget=forms.Textarea, required=True)
