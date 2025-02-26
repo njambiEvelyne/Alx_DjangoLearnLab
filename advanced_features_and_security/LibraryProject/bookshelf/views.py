@@ -3,7 +3,12 @@ from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
 from django.http import HttpResponseForbidden
 from django.http import HttpResponse
-from .models import Book  # Ensure your Book model is imported
+from .models import Book
+from django.shortcuts import render, redirect
+from .forms import CustomUserCreationForm, BookForm
+from django import forms
+
+  # Ensure your Book model is imported
 
 @permission_required('bookshelf.can_view', raise_exception=True)
 def book_list(request):
@@ -64,3 +69,15 @@ def delete_book(request, book_id):
     book = get_object_or_404(Book, id=book_id)
     book.delete()
     return render(request, 'bookshelf/book_list.html', {'books': Book.objects.all()})
+
+def register(request):
+    """User registration view."""
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('login')  # Redirect to login page after registration
+    else:
+        form = CustomUserCreationForm()
+    
+    return render(request, 'bookshelf/register.html', {'form': form})
