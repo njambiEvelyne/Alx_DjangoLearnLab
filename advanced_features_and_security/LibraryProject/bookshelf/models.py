@@ -1,6 +1,6 @@
-
 from django.db import models
-from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.contrib.auth.models import AbstractUser, BaseUserManager, Permission
+from django.contrib.contenttypes.models import ContentType
 
 class Book(models.Model):
     title = models.CharField(max_length=200)
@@ -64,3 +64,15 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.email
+    
+class CustomUser(AbstractUser):
+    date_of_birth = models.DateField(null=True, blank=True)
+    profile_photo = models.ImageField(upload_to='profile_photos/', null=True, blank=True)
+
+    class Meta:
+        permissions = [
+            ("can_view", "Can view items"),
+            ("can_create", "Can create items"),
+            ("can_edit", "Can edit items"),
+            ("can_delete", "Can delete items"),
+        ]
