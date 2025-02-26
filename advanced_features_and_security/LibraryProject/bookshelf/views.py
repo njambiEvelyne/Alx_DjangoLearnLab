@@ -6,6 +6,8 @@ from django.http import HttpResponse
 from .models import Book
 from django.shortcuts import render, redirect
 from .forms import CustomUserCreationForm, BookForm
+from .forms import ExampleForm
+
 from django import forms
 
   # Ensure your Book model is imported
@@ -30,6 +32,10 @@ def edit_book(request):
 @permission_required('bookshelf.can_delete', raise_exception=True)
 def delete_book(request):
     return HttpResponse("Delete book page.")
+
+def example_view(request):
+    form = ExampleForm()
+    return render(request, 'bookshelf/example_form.html', {'form': form})
 
 
 # Secure search function
