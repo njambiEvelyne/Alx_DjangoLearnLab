@@ -1,10 +1,23 @@
-<form method="post">
-  {% csrf_token %}
-  <label for="title">Title:</label>
-  <input type="text" name="title" id="title">
-  
-  <label for="author">Author:</label>
-  <input type="text" name="author" id="author">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Example</title>
+</head>
+<body>
+    <h2>Fill the Form</h2>
 
-  <button type="submit">Submit</button>
-</form>
+    {% if form.errors %}
+        <p style="color: red;">Please correct the errors below:</p>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+
+    <a href="{% url 'book_list' %}">Back to Book List</a>
+</body>
+</html>
