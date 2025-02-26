@@ -125,6 +125,8 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 
 # Enable browser's built-in XSS filtering
 SECURE_BROWSER_XSS_FILTER = True
+# Ensure Django recognizes the HTTP_X_FORWARDED_PROTO header for SSL
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
 WSGI_APPLICATION = 'LibraryProject.wsgi.application'
