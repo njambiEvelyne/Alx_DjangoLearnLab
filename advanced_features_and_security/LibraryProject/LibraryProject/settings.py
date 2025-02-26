@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,7 +25,28 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-@x1+#um=)w*n9*b8f5#f^b5s(vkbwsqz7t+v92+ed4k-4ps%!c'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+
+# Security settings
+SECURE_BROWSER_XSS_FILTER = True  # Protects against XSS
+X_FRAME_OPTIONS = 'DENY'  # Prevents clickjacking
+SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevents content sniffing
+
+# Ensure HTTPS for cookies (only enable in production with HTTPS)
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+# Set a strict Content Security Policy (CSP)
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'",)
+CSP_STYLE_SRC = ("'self'", "'unsafe-inline'",)
+
+# Allowed hosts (change this based on your deployment)
+ALLOWED_HOSTS = ['yourdomain.com', '127.0.0.1']
+
+# Use environment variables for sensitive data
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'your-default-secret-key')
+
 
 ALLOWED_HOSTS = []
 
@@ -40,6 +63,7 @@ INSTALLED_APPS = [
     'bookshelf',
     'relationship_app',
     'advanced_features_and_security',
+     'csp', 
 ]
 AUTH_USER_MODEL = 'advanced_features_and_security.CustomUser'
 # Specify the custom user model
@@ -53,6 +77,17 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'csp.middleware.CSPMiddleware',  
+    # Apply CSP settings
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+    'django.middleware.http.ConditionalGetMiddleware',
+    'django.middleware.message.CommonMiddleware',
+    'csp.middleware.CSPMiddleware',
     
 ]
 
@@ -73,6 +108,15 @@ TEMPLATES = [
         },
     },
 ]
+
+# Enable CSP to prevent XSS attacks
+CSP_DEFAULT_SRC = ("'self'",)  # Allow content only from the same origin
+CSP_SCRIPT_SRC = ("'self'", "https://trusted-scripts.example.com")  # Allow scripts only from trusted sources
+CSP_STYLE_SRC = ("'self'", "https://trusted-styles.example.com")  # Allow styles only from trusted sources
+CSP_IMG_SRC = ("'self'", "https://trusted-images.example.com")  # Allow images from trusted sources
+CSP_FONT_SRC = ("'self'", "https://trusted-fonts.example.com")  # Allow fonts from trusted sources
+CSP_FRAME_ANCESTORS = ("'none'",)  # Prevent the site from being embedded in an iframe
+
 
 WSGI_APPLICATION = 'LibraryProject.wsgi.application'
 
