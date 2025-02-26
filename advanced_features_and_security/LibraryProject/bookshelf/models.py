@@ -76,3 +76,8 @@ class CustomUser(AbstractUser):
             ("can_edit", "Can edit items"),
             ("can_delete", "Can delete items"),
         ]
+
+class Book(models.Model):
+    title = models.CharField(max_length=255)
+    author = models.CharField(max_length=255)
+    published_date = models.DateField()
