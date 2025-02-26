@@ -117,6 +117,15 @@ CSP_IMG_SRC = ("'self'", "https://trusted-images.example.com")  # Allow images f
 CSP_FONT_SRC = ("'self'", "https://trusted-fonts.example.com")  # Allow fonts from trusted sources
 CSP_FRAME_ANCESTORS = ("'none'",)  # Prevent the site from being embedded in an iframe
 
+# Prevent clickjacking attacks
+X_FRAME_OPTIONS = 'DENY'
+
+# Prevent MIME-type sniffing
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Enable browser's built-in XSS filtering
+SECURE_BROWSER_XSS_FILTER = True
+
 
 WSGI_APPLICATION = 'LibraryProject.wsgi.application'
 
@@ -130,6 +139,14 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# Redirect all HTTP requests to HTTPS
+SECURE_SSL_REDIRECT = True
+
+# Use HTTP Strict Transport Security (HSTS) to force HTTPS
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
 
 
 # Password validation
