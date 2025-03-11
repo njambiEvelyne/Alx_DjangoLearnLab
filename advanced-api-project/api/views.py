@@ -1,4 +1,5 @@
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, filters
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Book
@@ -15,6 +16,14 @@ class BookListView(generics.ListAPIView):
     serializer_class = BookSerializer
     permission_classes =[permissions.AllowAny]
 
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+
+    filterset_fields = ['title', 'author', 'publication_year']
+
+    search_fields = ['title', 'author']
+
+    ordering_fields = ['title', 'publication_year']
+    ordering = ['title']  # Default ordering (A-Z)
 class BookDetailView(generics.RetrieveAPIView):
     """
     API view to retrieve details of a specific book by its ID.

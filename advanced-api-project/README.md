@@ -32,3 +32,17 @@ This API provides CRUD operations for managing books using Django REST Framework
    ```bash
    git clone https://github.com/yourusername/advanced_api_project.git
    cd advanced_api_project
+
+##  Enhanced Query Features
+
+###  Filtering
+You can filter books using query parameters:
+- `title`: Filter books by title  
+- `author`: Filter books by author  
+- `publication_year`: Filter books by publication year  
+
+**Example Usage:**  
+```bash
+GET /api/books/?title=The Great Gatsby
+GET /api/books/?author=J.K. Rowling
+GET /api/books/?publication_year=2023
