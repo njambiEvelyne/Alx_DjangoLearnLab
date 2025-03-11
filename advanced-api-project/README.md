@@ -46,3 +46,11 @@ You can filter books using query parameters:
 GET /api/books/?title=The Great Gatsby
 GET /api/books/?author=J.K. Rowling
 GET /api/books/?publication_year=2023
+
+
+##  API Testing Strategy
+
+###  Running Tests
+Run all API tests using:
+```bash
+python manage.py test api
