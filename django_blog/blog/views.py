@@ -3,6 +3,52 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import EditProfileForm, RegisterForm
 from django.contrib.auth.decorators import login_required
+from .models import Post
+from .forms import PostForm
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.urls import reverse_lazy
+from django.shortcuts import get_object_or_404
+
+
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'blog/post_detail.html'
+
+class PostListView(ListView):
+    model = Post
+    template_name = 'blog/post_list.html'  # Create this template
+    context_object_name = 'posts'
+    ordering = ['-created_at']
+
+class PostCreateView(LoginRequiredMixin, CreateView):
+    model = Post
+    form_class = PostForm
+    template_name = 'blog/post_form.html'  # Create this template
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user  # Set the logged-in user as the author
+        return super().form_valid(form)
+
+# Allow authors to edit their own posts
+class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Post
+    form_class = PostForm
+    template_name = 'blog/post_form.html'  # Reuse the create template
+
+    def test_func(self):
+        post = self.get_object()
+        return self.request.user == post.author  # Ensure only the author can edit
+
+# Allow authors to delete their own posts
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Post
+    template_name = 'blog/post_confirm_delete.html'  # Create this template
+    success_url = reverse_lazy('post-list')
+
+    def test_func(self):
+        post = self.get_object()
+        return self.request.user == post.author
 
 # User Registration
 def register_view(request):
