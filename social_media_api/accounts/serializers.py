@@ -17,17 +17,13 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = User.objects.create_user(
-          username=validated_data['username'],
-          email=validated_data.get('email', ''),
-          password=validated_data['password']
-
+            username=validated_data['username'],
+            email=validated_data.get('email', ''),
+            password=validated_data['password']
         )
-
-        return user
-
-
-
-   
+        # Create and return token for the new user
+        token = Token.objects.create(user=user)
+        return user  # Token is created, but returned separately in the view
 
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
