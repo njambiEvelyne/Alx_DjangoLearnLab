@@ -23,8 +23,8 @@ from accounts import views
 urlpatterns = [
     path("", views.home, name="home"),
     path("admin/", admin.site.urls),
-    path("accounts/", include("accounts.urls")),
-    path('posts/', include('posts.urls')),  
+    path("api/accounts/", include("accounts.urls")),
+    path('api/posts/', include('posts.urls')),  
 
 
 ]
