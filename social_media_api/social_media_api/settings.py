@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-=8#2bvh!owlgr+jv4=dwmt!%_fi(y-k347i#5dxytsnvl0eho@"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [' 192.124.249.6', '102.0.11.254']
 
 
 # Application definition
@@ -102,6 +102,16 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
+
+import os
+
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
+
+if not SECRET_KEY:
+    if os.getenv("DJANGO_ENV") == "production":
+        raise ValueError("DJANGO_SECRET_KEY is not set in production!")
+    else:
+        SECRET_KEY = "your-secure-fallback-key"  # Use this only in development
 
 AUTH_PASSWORD_VALIDATORS = [
     {
