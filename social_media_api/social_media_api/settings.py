@@ -113,6 +113,16 @@ if not SECRET_KEY:
     else:
         SECRET_KEY = "your-secure-fallback-key"  # Use this only in development
 
+# Security settings
+SECURE_BROWSER_XSS_FILTER = True  # Protects against XSS attacks
+X_FRAME_OPTIONS = "DENY"  # Prevents your site from being embedded in an iframe (Clickjacking protection)
+SECURE_SSL_REDIRECT = True  # Forces all HTTP traffic to HTTPS (Only enable if you have SSL configured)
+
+SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevents the browser from trying to guess file types
+SESSION_COOKIE_SECURE = True  # Ensures cookies are sent over HTTPS only
+CSRF_COOKIE_SECURE = True  # Ensures CSRF cookies are sent over HTTPS only
+
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
