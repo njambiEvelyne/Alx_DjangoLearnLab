@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     "accounts",
     "rest_framework.authtoken",
     "posts",
+    "notifications",
+    'drf_yasg',
 
 ]
 REST_FRAMEWORK = {
