@@ -123,7 +123,8 @@ SESSION_COOKIE_SECURE = True  # Ensures cookies are sent over HTTPS only
 CSRF_COOKIE_SECURE = True  # Ensures CSRF cookies are sent over HTTPS only
 
 import os
-
+STATIC_URL = "/static/"  # Ensure STATIC_URL is defined
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles") 
 PORT = os.getenv("PORT", "8000")  # Default to 8000 if PORT is not set
 
 
