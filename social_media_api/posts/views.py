@@ -7,7 +7,6 @@ from rest_framework import generics, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
-from rest_framework.generics import get_object_or_404
 
 from notifications.models import Notification
 from django.contrib.contenttypes.models import ContentType
@@ -69,11 +68,10 @@ class LikePostView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, pk):
-        post = get_object_or_404(Post, pk=pk)  # ✅ Ensures post exists
+        post = get_object_or_404(Post, pk=pk)
         like, created = Like.objects.get_or_create(user=request.user, post=post)
         
         if created:
-            # ✅ Create a notification when a post is liked
             Notification.objects.create(
                 recipient=post.author,  # Post owner receives the notification
                 actor=request.user,  # The user who liked the post
