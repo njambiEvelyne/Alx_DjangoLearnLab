@@ -11,6 +11,11 @@ from django.shortcuts import get_object_or_404
 from notifications.models import Notification
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404 as django_get_object_or_404
+from rest_framework import generics
+
+generics.get_object_or_404 = django_get_object_or_404 
+
 
 
 CustomUser = get_user_model()
@@ -68,7 +73,8 @@ class LikePostView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, pk):
-        post = get_object_or_404(Post, pk=pk)
+        post = generics.get_object_or_404(Post, pk=pk)  
+
         like, created = Like.objects.get_or_create(user=request.user, post=post)
         
         if created:
